@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronDown, ChevronUp, Pencil, Trash2, GripVertical, Upload, Link as LinkIcon } from 'lucide-react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 import { supabaseFrom, supabaseStorage } from '../lib/supabase'
 
 const projectTypes = [
