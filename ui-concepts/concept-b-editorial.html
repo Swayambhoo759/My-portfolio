@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept B — Editorial Split-Screen</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1A1A2E;
+            min-height: 100vh;
+        }
+
+        .concept-label {
+            text-align: center;
+            padding: 20px 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #FF6B35;
+            background: #FAFAF8;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sticky left sidebar */
+        .sidebar {
+            width: 320px;
+            background: #1A1A2E;
+            color: #FAFAF8;
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar .name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .sidebar .name span {
+            color: #FF6B35;
+        }
+
+        .sidebar .title {
+            font-size: 14px;
+            color: rgba(250, 250, 248, 0.5);
+            margin-bottom: 48px;
+            font-weight: 500;
+        }
+
+        .sidebar nav a {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(250, 250, 248, 0.4);
+            text-decoration: none;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: color 0.3s, padding-left 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sidebar nav a:hover {
+            color: #FF6B35;
+            padding-left: 8px;
+        }
+
+        .sidebar nav a.active {
+            color: #FF6B35;
+        }
+
+        .sidebar .socials {
+            display: flex;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .sidebar .socials a {
+            color: rgba(250, 250, 248, 0.4);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar .socials a:hover {
+            color: #FF6B35;
+        }
+
+        /* Right content */
+        .content {
+            flex: 1;
+            background: #FAFAF8;
+            overflow-y: auto;
+        }
+
+        /* Hero section */
+        .hero-editorial {
+            padding: 120px 80px 80px;
+            border-bottom: 1px solid #E5E3DF;
+        }
+
+        .hero-editorial .overline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #FF6B35;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .hero-editorial h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            color: #1A1A2E;
+            max-width: 700px;
+        }
+
+        .hero-editorial .pull-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #4A4A6A;
+            border-left: 3px solid #FF6B35;
+            padding-left: 20px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        /* Case studies */
+        .section-header {
+            padding: 60px 80px 24px;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #4A4A6A;
+        }
+
+        .section-header .line {
+            width: 40px;
+            height: 3px;
+            background: #FF6B35;
+            margin-top: 12px;
+            border-radius: 2px;
+        }
+
+        .case-study {
+            padding: 40px 80px;
+            display: flex;
+            gap: 40px;
+            border-bottom: 1px solid #E5E3DF;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .case-study:hover {
+            background: #F5F5F0;
+        }
+
+        .case-study .thumb {
+            width: 200px;
+            height: 140px;
+            background: linear-gradient(135deg, #1A1A2E, #2a2a4a);
+            border-radius: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FF6B35;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .case-study .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .case-study .type-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: #2D6A4F;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .case-study h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .case-study p {
+            font-size: 14px;
+            color: #4A4A6A;
+            line-height: 1.6;
+        }
+
+        .case-study .read-more {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        /* Skills ribbon */
+        .skills-ribbon {
+            padding: 60px 80px;
+            border-bottom: 1px solid #E5E3DF;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .skill-block {
+            border: 1px solid #E5E3DF;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .skill-block:hover {
+            border-color: #FF6B35;
+            transform: translateY(-2px);
+        }
+
+        .skill-block .icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .skill-block h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .skill-block p {
+            font-size: 13px;
+            color: #4A4A6A;
+            line-height: 1.5;
+        }
+
+        /* CTA */
+        .cta-editorial {
+            padding: 80px;
+            background: #1A1A2E;
+            color: #FAFAF8;
+        }
+
+        .cta-editorial h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta-editorial p {
+            color: rgba(250, 250, 248, 0.6);
+            margin-bottom: 28px;
+            font-size: 15px;
+        }
+
+        .cta-editorial .btn-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .cta-editorial .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cta-editorial .btn.primary {
+            background: #FF6B35;
+            color: white;
+        }
+
+        .cta-editorial .btn.secondary {
+            background: transparent;
+            color: rgba(250, 250, 248, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="concept-label">Concept B — Editorial Split-Screen</div>
+    <div class="layout">
+        <aside class="sidebar">
+            <div>
+                <div class="name">Swayambhoo<br /><span>Chauhan</span></div>
+                <div class="title">Product Manager</div>
+                <nav>
+                    <a href="#" class="active">Home</a>
+                    <a href="#">Work</a>
+                    <a href="#">About</a>
+                    <a href="#">Skills</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+            <div class="socials">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">Resume</a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <section class="hero-editorial">
+                <div class="overline">Product Manager</div>
+                <h1>Building products at the edge of ambiguity.</h1>
+                <div class="pull-quote">
+                    "Every decision filtered through V² thinking — delivering Value to users while ensuring Viability
+                    for business."
+                </div>
+            </section>
+
+            <div class="section-header">
+                <h2>Selected Work</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="case-study">
+                <div class="thumb">PRD</div>
+                <div class="info">
+                    <span class="type-tag">Product Requirement Doc</span>
+                    <h3>Fintech Payment Flow Redesign</h3>
+                    <p>End-to-end redesign that reduced payment drop-off by 34% through streamlined UX and smart
+                        defaults.</p>
+                    <span class="read-more">Read Case Study →</span>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="thumb">MVP</div>
+                <div class="info">
+                    <span class="type-tag">MVP PRD</span>
+                    <h3>AI-Powered Search</h3>
+                    <p>Built an intelligent search system with auto-suggestions and semantic understanding for
+                        e-commerce.</p>
+                    <span class="read-more">Read Case Study →</span>
+                </div>
+            </div>
+
+            <div class="case-study">
+                <div class="thumb">DATA</div>
+                <div class="info">
+                    <span class="type-tag">Data Analysis</span>
+                    <h3>User Retention Deep-Dive</h3>
+                    <p>Analyzed user cohorts to identify churn drivers, resulting in 3 actionable product improvements.
+                    </p>
+                    <span class="read-more">Read Case Study →</span>
+                </div>
+            </div>
+
+            <section class="skills-ribbon">
+                <div class="section-header" style="padding: 0;">
+                    <h2>Capabilities</h2>
+                    <div class="line"></div>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-block">
+                        <div class="icon">🎯</div>
+                        <h4>Product Strategy</h4>
+                        <p>Roadmapping, prioritization, and stakeholder alignment.</p>
+                    </div>
+                    <div class="skill-block">
+                        <div class="icon">📊</div>
+                        <h4>Data & Analytics</h4>
+                        <p>SQL, A/B testing, funnel analysis, and metrics design.</p>
+                    </div>
+                    <div class="skill-block">
+                        <div class="icon">🧠</div>
+                        <h4>User Research</h4>
+                        <p>Interviews, surveys, usability testing, and persona building.</p>
+                    </div>
+                    <div class="skill-block">
+                        <div class="icon">🛠️</div>
+                        <h4>Technical Fluency</h4>
+                        <p>API design, system architecture, and engineering collaboration.</p>
+                    </div>
+                    <div class="skill-block">
+                        <div class="icon">✏️</div>
+                        <h4>Design Thinking</h4>
+                        <p>Wireframing, prototyping, and end-to-end UX flows.</p>
+                    </div>
+                    <div class="skill-block">
+                        <div class="icon">🤝</div>
+                        <h4>Cross-Functional</h4>
+                        <p>Engineering, design, marketing, and leadership alignment.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-editorial">
+                <h2>Let's build something<br />worth shipping.</h2>
+                <p>Open to product roles, collaborations, and interesting problems worth solving.</p>
+                <div class="btn-row">
+                    <a href="#" class="btn primary">Get In Touch</a>
+                    <a href="#" class="btn secondary">Download Resume</a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

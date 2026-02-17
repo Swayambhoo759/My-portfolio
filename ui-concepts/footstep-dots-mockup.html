@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Flow — Polished Footprint Trail</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F5F1EB;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 220px;
+            background: #1A1A2E;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 28px;
+            z-index: 50;
+        }
+
+        .sidebar-logo {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-role {
+            color: rgba(250, 250, 248, 0.35);
+            font-size: 13px;
+            margin-bottom: 48px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar nav a {
+            color: rgba(250, 250, 248, 0.45);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 12px;
+            border-radius: 10px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+        }
+
+        .sidebar-footer .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-footer a {
+            font-family: 'DM Mono', monospace;
+            color: rgba(250, 250, 248, 0.3);
+            text-decoration: none;
+            font-size: 11px;
+            margin-right: 16px;
+        }
+
+        .main {
+            margin-left: 220px;
+            flex: 1;
+            padding: 24px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #1A1A2E 0%, #2D2B55 60%, #1A1A2E 100%);
+            border-radius: 24px;
+            padding: 80px 64px;
+            min-height: 520px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.05;
+            max-width: 500px;
+        }
+
+        .hero-card h1 span {
+            color: #FF6B35;
+        }
+
+        .hero-card p {
+            color: rgba(250, 250, 248, 0.5);
+            margin-top: 16px;
+            max-width: 440px;
+            line-height: 1.6;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: rgba(250, 250, 248, 0.5);
+            border: 1px solid rgba(250, 250, 248, 0.15);
+            padding: 6px 16px;
+            border-radius: 999px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn-primary {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .product-flow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .flow-node {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translate(-6px, -6px);
+        }
+
+        .flow-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FF6B35;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.35);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        .flow-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(250, 250, 248, 0.3);
+            white-space: nowrap;
+        }
+
+        .flow-node.iterate .flow-dot {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #FF6B35, #FFB347);
+            box-shadow: 0 0 14px rgba(255, 107, 53, 0.45);
+        }
+
+        .flow-node.iterate .flow-label {
+            color: rgba(255, 107, 53, 0.55);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.65;
+                transform: scale(0.85);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .approach-label {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            background: #FF6B35;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="approach-label">🦶 Polished Footprint Trail</div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">SC</div>
+        <div class="sidebar-role">Product Manager</div>
+        <nav>
+            <a href="#">Home</a><a href="#">About</a><a href="#">Work</a><a href="#">Skills</a><a href="#">Contact</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="divider"></div>
+            <a href="#">LinkedIn</a><a href="#">Email</a>
+        </div>
+    </aside>
+
+    <div class="main">
+        <div class="hero-card" id="heroCard">
+            <div style="position: relative; z-index: 10; max-width: 500px;">
+                <h1>I build products<br>that <span>matter.</span></h1>
+                <p>Swayambhoo Chauhan — Product Manager driven by V² thinking: Value for users, Viability for business.
+                </p>
+                <div class="badges">
+                    <span class="badge">Product Strategy</span>
+                    <span class="badge">User Research</span>
+                    <span class="badge">Data-Driven</span>
+                    <span class="badge">Cross-Functional</span>
+                </div>
+                <div class="buttons">
+                    <button class="btn-primary">View My Work</button>
+                    <button class="btn-secondary">Download Resume</button>
+                </div>
+            </div>
+
+            <div class="product-flow" id="flowContainer">
+                <svg id="footSvg" viewBox="0 0 1000 520" preserveAspectRatio="none" fill="none">
+                    <defs>
+                        <!-- Left foot: sole + 5 toes (smaller, realistic) -->
+                        <g id="leftFoot">
+                            <ellipse cx="0" cy="2" rx="2.8" ry="5" fill="rgba(255,107,53,0.22)" />
+                            <ellipse cx="0" cy="2" rx="2" ry="4" fill="rgba(255,107,53,0.12)" />
+                            <circle cx="-2.2" cy="-4" r="1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="-0.8" cy="-5" r="1.1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="0.8" cy="-5.2" r="1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="2.2" cy="-4.5" r="0.9" fill="rgba(255,107,53,0.18)" />
+                            <circle cx="3.2" cy="-3.2" r="0.7" fill="rgba(255,107,53,0.15)" />
+                        </g>
+                        <!-- Right foot: mirrored -->
+                        <g id="rightFoot">
+                            <ellipse cx="0" cy="2" rx="2.8" ry="5" fill="rgba(255,107,53,0.22)" />
+                            <ellipse cx="0" cy="2" rx="2" ry="4" fill="rgba(255,107,53,0.12)" />
+                            <circle cx="2.2" cy="-4" r="1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="0.8" cy="-5" r="1.1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="-0.8" cy="-5.2" r="1" fill="rgba(255,107,53,0.2)" />
+                            <circle cx="-2.2" cy="-4.5" r="0.9" fill="rgba(255,107,53,0.18)" />
+                            <circle cx="-3.2" cy="-3.2" r="0.7" fill="rgba(255,107,53,0.15)" />
+                        </g>
+                    </defs>
+                </svg>
+
+                <!-- Flow Nodes -->
+                <div class="flow-node" style="left: 72%; top: 14%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Discover</span>
+                </div>
+                <div class="flow-node" style="left: 90%; top: 28%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Vision</span>
+                </div>
+                <div class="flow-node" style="left: 74%; top: 46%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Build</span>
+                </div>
+                <div class="flow-node" style="left: 92%; top: 60%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Prioritize</span>
+                </div>
+                <div class="flow-node" style="left: 78%; top: 78%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Ship</span>
+                </div>
+                <div class="flow-node iterate" style="left: 85%; top: 92%;">
+                    <div class="flow-dot"></div>
+                    <span class="flow-label">Iterate ↻</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const svg = document.getElementById('footSvg');
+        const W = 1000, H = 520;
+
+        // Node positions in SVG coords
+        // CLOCKWISE flow: Discover(top-center) → Vision(right) → Build(center) → Prioritize(right) → Ship(center-bottom)
+        // Then arc goes RIGHT and DOWN, sweeping clockwise back up to Discover
+        const nodes = [
+            { x: 0.72 * W, y: 0.14 * H },  // Discover
+            { x: 0.90 * W, y: 0.28 * H },  // Vision
+            { x: 0.74 * W, y: 0.46 * H },  // Build
+            { x: 0.92 * W, y: 0.60 * H },  // Prioritize
+            { x: 0.78 * W, y: 0.78 * H },  // Ship
+        ];
+
+        let globalStepIdx = 0;
+
+        // Place a single footprint at position with proper rotation and L/R stagger
+        function placeFoot(x, y, angle, isLeft, delay) {
+            // Perpendicular offset for natural L/R stagger (like a real walking trail)
+            const perpAngle = (angle - 90) * Math.PI / 180;
+            const stagger = isLeft ? -5 : 5; // Left foot offsets left, right offsets right
+            const ox = x + stagger * Math.cos(perpAngle);
+            const oy = y + stagger * Math.sin(perpAngle);
+
+            // Slight toe-out angle for realism
+            const toeOut = isLeft ? -12 : 12;
+
+            const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            use.setAttribute('href', isLeft ? '#leftFoot' : '#rightFoot');
+            use.setAttribute('transform', `translate(${ox}, ${oy}) rotate(${angle + toeOut})`);
+            use.style.opacity = '0';
+            use.style.animation = `fadeIn 0.35s ease-out ${delay}s forwards`;
+            svg.appendChild(use);
+        }
+
+        // Place footprints along a straight line
+        function placeLineFeet(from, to, count) {
+            const angle = Math.atan2(to.y - from.y, to.x - from.x) * (180 / Math.PI) + 90;
+            for (let i = 1; i <= count; i++) {
+                const t = i / (count + 1);
+                const x = from.x + (to.x - from.x) * t;
+                const y = from.y + (to.y - from.y) * t;
+                const isLeft = globalStepIdx % 2 === 0;
+                placeFoot(x, y, angle, isLeft, 0.3 + globalStepIdx * 0.1);
+                globalStepIdx++;
+            }
+        }
+
+        // Cubic bezier point
+        function bezierPt(p0, p1, p2, p3, t) {
+            const mt = 1 - t;
+            return {
+                x: mt * mt * mt * p0.x + 3 * mt * mt * t * p1.x + 3 * mt * t * t * p2.x + t * t * t * p3.x,
+                y: mt * mt * mt * p0.y + 3 * mt * mt * t * p1.y + 3 * mt * t * t * p2.y + t * t * t * p3.y,
+            };
+        }
+        function bezierTangent(p0, p1, p2, p3, t) {
+            const mt = 1 - t;
+            return {
+                dx: 3 * mt * mt * (p1.x - p0.x) + 6 * mt * t * (p2.x - p1.x) + 3 * t * t * (p3.x - p2.x),
+                dy: 3 * mt * mt * (p1.y - p0.y) + 6 * mt * t * (p2.y - p1.y) + 3 * t * t * (p3.y - p2.y),
+            };
+        }
+
+        // Place footprints along a bezier arc
+        function placeArcFeet(p0, p1, p2, p3, count) {
+            for (let i = 1; i <= count; i++) {
+                const t = i / (count + 1);
+                const pt = bezierPt(p0, p1, p2, p3, t);
+                const tan = bezierTangent(p0, p1, p2, p3, t);
+                const angle = Math.atan2(tan.dy, tan.dx) * (180 / Math.PI) + 90;
+                const isLeft = globalStepIdx % 2 === 0;
+                placeFoot(pt.x, pt.y, angle, isLeft, 0.3 + globalStepIdx * 0.1);
+                globalStepIdx++;
+            }
+        }
+
+        // === CLOCKWISE FLOW ===
+        // Main zigzag: Discover → Vision → Build → Prioritize → Ship
+        placeLineFeet(nodes[0], nodes[1], 5);  // Discover → Vision
+        placeLineFeet(nodes[1], nodes[2], 5);  // Vision → Build
+        placeLineFeet(nodes[2], nodes[3], 5);  // Build → Prioritize
+        placeLineFeet(nodes[3], nodes[4], 5);  // Prioritize → Ship
+
+        // Return arc: Ship → sweeps RIGHT and DOWN, curves back UP to Discover (CLOCKWISE)
+        const arcP0 = nodes[4]; // Ship (780, 405)
+        const arcP1 = { x: 0.95 * W, y: 0.90 * H };  // Control: far right, below Ship
+        const arcP2 = { x: 0.96 * W, y: 0.08 * H };  // Control: far right, above Discover
+        const arcP3 = nodes[0]; // Discover (720, 73)
+        placeArcFeet(arcP0, arcP1, arcP2, arcP3, 10);
+    </script>
+</body>
+
+</html>

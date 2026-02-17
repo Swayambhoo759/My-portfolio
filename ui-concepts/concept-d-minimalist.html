@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept D — Clean Minimalist</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1A1A2E;
+            background: #fff;
+            line-height: 1.7;
+        }
+
+        .concept-label {
+            text-align: center;
+            padding: 16px 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #FF6B35;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Nav */
+        nav {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        nav .name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        nav .links a {
+            font-size: 14px;
+            color: #888;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        nav .links a:hover {
+            color: #1A1A2E;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 100px 0 80px;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #666;
+            max-width: 520px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero .cta-row {
+            margin-top: 32px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #1A1A2E;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #2a2a4a;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #1A1A2E;
+            color: #1A1A2E;
+        }
+
+        /* Section */
+        .section {
+            padding: 64px 0;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+            margin-bottom: 32px;
+        }
+
+        /* About */
+        .about-text {
+            font-size: 18px;
+            color: #444;
+            font-weight: 300;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .about-text strong {
+            font-weight: 500;
+            color: #1A1A2E;
+        }
+
+        /* Skills — simple inline list */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            padding: 8px 16px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 400;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: #1A1A2E;
+            color: #1A1A2E;
+        }
+
+        /* Projects — clean list style */
+        .project-item {
+            padding: 28px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            transition: padding-left 0.2s;
+            cursor: pointer;
+        }
+
+        .project-item:hover {
+            padding-left: 8px;
+        }
+
+        .project-item:first-child {
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .project-item .info {
+            flex: 1;
+        }
+
+        .project-item .type {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #FF6B35;
+            margin-bottom: 6px;
+        }
+
+        .project-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .project-item p {
+            font-size: 14px;
+            color: #888;
+            font-weight: 300;
+        }
+
+        .project-item .arrow {
+            font-size: 20px;
+            color: #ccc;
+            transition: color 0.2s, transform 0.2s;
+            margin-top: 8px;
+        }
+
+        .project-item:hover .arrow {
+            color: #1A1A2E;
+            transform: translateX(4px);
+        }
+
+        /* Contact */
+        .contact {
+            text-align: center;
+            padding: 80px 0;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .contact h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .contact p {
+            color: #888;
+            font-size: 15px;
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .contact-links a {
+            font-size: 14px;
+            color: #1A1A2E;
+            text-decoration: none;
+            font-weight: 500;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: border-color 0.2s;
+        }
+
+        .contact-links a:hover {
+            border-color: #1A1A2E;
+        }
+
+        /* Footer */
+        footer {
+            padding: 24px 0;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+            font-size: 12px;
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="concept-label">Concept D — Clean Minimalist</div>
+
+    <div class="container">
+        <nav>
+            <div class="name">Swayambhoo Chauhan</div>
+            <ul class="links">
+                <li><a href="#">Work</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Resume</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <h1>Product Manager who ships things that matter.</h1>
+            <p>I focus on what users need and what business demands. Every product decision is filtered through value
+                and viability.</p>
+            <div class="cta-row">
+                <a href="#" class="btn btn-primary">See My Work ↓</a>
+                <a href="#" class="btn btn-secondary">Resume</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-label">About</div>
+            <p class="about-text">
+                I'm a <strong>Product Manager</strong> who thrives at the intersection of user needs and business
+                outcomes. I've shipped products across fintech, e-commerce, and SaaS — always focused on
+                <strong>measurable impact</strong> over feature counts.
+            </p>
+        </section>
+
+        <section class="section">
+            <div class="section-label">Skills</div>
+            <div class="skills-list">
+                <span class="skill-tag">Product Strategy</span>
+                <span class="skill-tag">Roadmapping</span>
+                <span class="skill-tag">User Research</span>
+                <span class="skill-tag">A/B Testing</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Figma</span>
+                <span class="skill-tag">Cross-functional Leadership</span>
+                <span class="skill-tag">Wireframing</span>
+                <span class="skill-tag">Data Analysis</span>
+                <span class="skill-tag">Stakeholder Management</span>
+                <span class="skill-tag">Jira</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-label">Selected Work</div>
+
+            <div class="project-item">
+                <div class="info">
+                    <div class="type">PRD</div>
+                    <h3>Fintech Payment Flow Redesign</h3>
+                    <p>Reduced payment drop-off by 34% through streamlined UX and smart defaults.</p>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+
+            <div class="project-item">
+                <div class="info">
+                    <div class="type">MVP PRD</div>
+                    <h3>AI-Powered Search Engine</h3>
+                    <p>Built semantic search with auto-suggestions, boosting conversion 22%.</p>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+
+            <div class="project-item">
+                <div class="info">
+                    <div class="type">Data Analysis</div>
+                    <h3>User Retention Deep-Dive</h3>
+                    <p>Cohort analysis that identified key churn drivers, improving D30 retention by 18%.</p>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+
+            <div class="project-item">
+                <div class="info">
+                    <div class="type">Wireframes</div>
+                    <h3>SaaS Analytics Dashboard</h3>
+                    <p>Redesigned B2B dashboard, improving task completion rate by 40%.</p>
+                </div>
+                <span class="arrow">→</span>
+            </div>
+        </section>
+
+        <section class="contact">
+            <h2>Let's talk.</h2>
+            <p>Open to product roles, collaborations, and interesting problems.</p>
+            <div class="contact-links">
+                <a href="#">Email</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Twitter</a>
+            </div>
+        </section>
+
+        <footer>
+            © 2026 Swayambhoo Chauhan
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept A — Bento Grid Portfolio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #FAFAF8;
+            font-family: 'Inter', sans-serif;
+            color: #1A1A2E;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 180px;
+            gap: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .bento-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            border: 1px solid #E5E3DF;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(26, 26, 46, 0.08);
+        }
+
+        /* Hero — spans full width, 2 rows */
+        .hero {
+            grid-column: 1 / -1;
+            grid-row: span 2;
+            background: linear-gradient(135deg, #1A1A2E 0%, #2a2a4a 100%);
+            color: #FAFAF8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 span {
+            color: #FF6B35;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(250, 250, 248, 0.65);
+            max-width: 500px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .tag {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(250, 250, 248, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* About — spans 2 cols */
+        .about {
+            grid-column: span 2;
+            grid-row: span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .about .label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #FF6B35;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .about h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .about p {
+            font-size: 14px;
+            color: #4A4A6A;
+            line-height: 1.7;
+        }
+
+        /* Stats card */
+        .stats {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            padding: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-right: 1px solid #E5E3DF;
+            border-bottom: 1px solid #E5E3DF;
+        }
+
+        .stat-item:nth-child(2n) {
+            border-right: none;
+        }
+
+        .stat-item:nth-child(n+3) {
+            border-bottom: none;
+        }
+
+        .stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #FF6B35;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #4A4A6A;
+            margin-top: 4px;
+        }
+
+        /* Skills */
+        .skills {
+            grid-column: span 2;
+            grid-row: span 2;
+            background: #1A1A2E;
+            color: #FAFAF8;
+        }
+
+        .skills .label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            color: #FF6B35;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .skill-pill {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(250, 250, 248, 0.8);
+        }
+
+        .skill-pill.accent {
+            background: rgba(255, 107, 53, 0.15);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: #FF6B35;
+        }
+
+        /* Project cards */
+        .project {
+            grid-column: span 2;
+            background: linear-gradient(145deg, #F8F7F4, #ffffff);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project .type {
+            font-size: 11px;
+            font-weight: 600;
+            color: #2D6A4F;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .project h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project p {
+            font-size: 13px;
+            color: #4A4A6A;
+            line-height: 1.6;
+        }
+
+        .project .arrow {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #FF6B35;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-end;
+            font-size: 18px;
+            margin-top: 12px;
+        }
+
+        /* CTA */
+        .cta {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #FF6B35, #e85a2a);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .cta h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .cta-btn {
+            margin-top: 20px;
+            padding: 12px 32px;
+            border-radius: 12px;
+            background: white;
+            color: #FF6B35;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .concept-label {
+            text-align: center;
+            padding: 20px 0 32px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #FF6B35;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="concept-label">Concept A — Bento Grid Layout</div>
+    <div class="bento-grid">
+        <!-- Hero -->
+        <div class="bento-card hero">
+            <h1>I build products<br />that <span>matter.</span></h1>
+            <p>Swayambhoo Chauhan — Product Manager driven by V² thinking: Value for users, Viability for business.</p>
+            <div class="tags">
+                <span class="tag">Product Strategy</span>
+                <span class="tag">User Research</span>
+                <span class="tag">Data-Driven</span>
+                <span class="tag">Cross-Functional</span>
+            </div>
+        </div>
+
+        <!-- About -->
+        <div class="bento-card about">
+            <span class="label">About</span>
+            <h2>From vision to shipped features</h2>
+            <p>I thrive at the intersection of user needs and business outcomes. Every product decision I make is
+                filtered through V² thinking — does it deliver real Value to the customer while ensuring Viability for
+                the business?</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="bento-card stats">
+            <div class="stat-item">
+                <span class="stat-num">12+</span>
+                <span class="stat-label">Products Shipped</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">3x</span>
+                <span class="stat-label">Avg. Impact</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">50K</span>
+                <span class="stat-label">Users Reached</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">4</span>
+                <span class="stat-label">Industries</span>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="bento-card skills">
+            <div class="label">What I Bring</div>
+            <span class="skill-pill accent">Product Strategy</span>
+            <span class="skill-pill">Roadmapping</span>
+            <span class="skill-pill">A/B Testing</span>
+            <span class="skill-pill accent">User Research</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">Wireframing</span>
+            <span class="skill-pill accent">Cross-Functional</span>
+            <span class="skill-pill">Data Analysis</span>
+            <span class="skill-pill">Jira / Figma</span>
+            <span class="skill-pill accent">Stakeholder Mgmt</span>
+        </div>
+
+        <!-- Project 1 -->
+        <div class="bento-card project">
+            <div>
+                <span class="type">PRD</span>
+                <h3>Fintech Payment Flow</h3>
+                <p>End-to-end redesign of a payment experience, reducing drop-off by 34%.</p>
+            </div>
+            <div class="arrow">→</div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="bento-card project">
+            <div>
+                <span class="type">Product Improvement</span>
+                <h3>E-Commerce Search</h3>
+                <p>Rebuilt search with AI-powered suggestions, boosting conversion 22%.</p>
+            </div>
+            <div class="arrow">→</div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bento-card cta">
+            <h2>Let's Build Something Together</h2>
+            <p>Open to product roles, collaborations, and interesting problems.</p>
+            <button class="cta-btn">Get In Touch →</button>
+        </div>
+    </div>
+</body>
+
+</html>

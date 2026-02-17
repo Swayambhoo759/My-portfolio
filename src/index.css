@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* ===== Design System Custom Properties ===== */
+:root {
+  --bg-primary: #FAFAF8;
+  --bg-secondary: #F2F1EE;
+  --bg-dark: #1A1A2E;
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A4A6A;
+  --text-light: #FAFAF8;
+  --accent-orange: #FF6B35;
+  --accent-green: #2D6A4F;
+  --accent-orange-light: #FFF0EA;
+  --border: #E5E3DF;
+  --card-bg: #FFFFFF;
+}
+
+/* ===== Base Styles ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+code,
+.mono {
+  font-family: 'DM Mono', monospace;
+}
+
+/* Default cursor restored */
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-orange);
+  border-radius: 3px;
+}
+
+/* ===== Selection Color ===== */
+::selection {
+  background: var(--accent-orange);
+  color: var(--text-light);
+}
+
+/* ===== Shimmer Animation for Skeletons ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ===== Toast Styles ===== */
+.toast-enter {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+.toast-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.toast-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-exit-active {
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* ===== Line Clamp ===== */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== react-pdf overrides ===== */
+.react-pdf__Page__canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}

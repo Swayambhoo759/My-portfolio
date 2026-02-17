@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Concept C — Dark Glassmorphism</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #E8E4DF;
+            min-height: 100vh;
+            background: #0A0A14;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 107, 53, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(45, 106, 79, 0.06) 0%, transparent 60%);
+        }
+
+        .concept-label {
+            text-align: center;
+            padding: 20px 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #FF6B35;
+        }
+
+        /* Navbar */
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #FF6B35;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            color: rgba(232, 228, 223, 0.5);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: #FF6B35;
+        }
+
+        /* Hero */
+        .hero-dark {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 48px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-dark .mono-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            color: #2D6A4F;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .hero-dark h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #E8E4DF 0%, rgba(232, 228, 223, 0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-dark h1 .highlight {
+            background: linear-gradient(135deg, #FF6B35, #FF9A6C);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero-dark .sub {
+            font-size: 18px;
+            color: rgba(232, 228, 223, 0.45);
+            max-width: 550px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn-glass {
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-glass.primary {
+            background: #FF6B35;
+            color: white;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.25);
+        }
+
+        .btn-glass.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 107, 53, 0.35);
+        }
+
+        .btn-glass.secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(232, 228, 223, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+        }
+
+        .btn-glass.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Section */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 48px;
+        }
+
+        .section-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: #FF6B35;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            color: #E8E4DF;
+        }
+
+        /* Glass cards */
+        .glass-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 107, 53, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .glass-card .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .glass-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .glass-card p {
+            font-size: 13px;
+            color: rgba(232, 228, 223, 0.45);
+            line-height: 1.6;
+        }
+
+        /* Projects */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            border-color: rgba(255, 107, 53, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .project-thumb {
+            height: 160px;
+            background: linear-gradient(135deg, #12121E, #1A1A30);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            color: rgba(255, 107, 53, 0.6);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-thumb::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .project-body {
+            padding: 24px;
+        }
+
+        .project-body .type {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: #2D6A4F;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .project-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .project-body p {
+            font-size: 13px;
+            color: rgba(232, 228, 223, 0.4);
+            line-height: 1.6;
+        }
+
+        .project-body .link {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #FF6B35;
+            font-weight: 600;
+        }
+
+        /* Contact */
+        .contact-dark {
+            text-align: center;
+            padding: 100px 48px;
+            position: relative;
+        }
+
+        .contact-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.06) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .contact-dark h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .contact-dark p {
+            color: rgba(232, 228, 223, 0.45);
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(232, 228, 223, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="concept-label">Concept C — Dark Glassmorphism</div>
+
+    <nav class="nav">
+        <div class="logo">SC.</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Work</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Skills</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero-dark">
+        <span class="mono-tag">// product_manager</span>
+        <h1>Turning ambiguity<br />into <span class="highlight">shipped products.</span></h1>
+        <p class="sub">Swayambhoo Chauhan — PM driven by V² thinking. Value for users, Viability for business. Every
+            decision, every sprint.</p>
+        <div class="hero-btns">
+            <a href="#" class="btn-glass primary">View My Work</a>
+            <a href="#" class="btn-glass secondary">Download Resume</a>
+        </div>
+    </section>
+
+    <section class="section">
+        <span class="section-title">// capabilities</span>
+        <h2>What I Bring</h2>
+        <div class="glass-grid">
+            <div class="glass-card">
+                <div class="icon">🎯</div>
+                <h3>Product Strategy</h3>
+                <p>Roadmapping, vision setting, and ruthless prioritization for maximum impact.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon">📊</div>
+                <h3>Data Fluency</h3>
+                <p>SQL, A/B testing, cohort analysis — decisions backed by numbers, not hunches.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon">🧠</div>
+                <h3>User Empathy</h3>
+                <p>Deep user research, persona building, and journey mapping that drives real insight.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon">⚡</div>
+                <h3>Technical Depth</h3>
+                <p>API fluency, system design understanding, and productive engineering partnerships.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon">✏️</div>
+                <h3>Design Thinking</h3>
+                <p>Wireframing, prototyping, and iterative UX design with Figma and beyond.</p>
+            </div>
+            <div class="glass-card">
+                <div class="icon">🤝</div>
+                <h3>Stakeholder Craft</h3>
+                <p>Aligning eng, design, marketing, and leadership around a shared product vision.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <span class="section-title">// selected_work</span>
+        <h2>Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-thumb">PRD</div>
+                <div class="project-body">
+                    <span class="type">Product Requirement Doc</span>
+                    <h3>Fintech Payment Flow</h3>
+                    <p>End-to-end payment UX redesign. Reduced drop-off 34% through smart defaults and progressive
+                        disclosure.</p>
+                    <span class="link">View Case Study →</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumb">MVP</div>
+                <div class="project-body">
+                    <span class="type">MVP PRD</span>
+                    <h3>AI-Powered Search</h3>
+                    <p>Built semantic search with auto-suggestions for e-commerce. Boosted conversion by 22%.</p>
+                    <span class="link">View Case Study →</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumb">DATA</div>
+                <div class="project-body">
+                    <span class="type">Data Analysis</span>
+                    <h3>Retention Deep-Dive</h3>
+                    <p>Cohort analysis revealing key churn drivers. Led to 3 initiatives improving D30 retention by 18%.
+                    </p>
+                    <span class="link">View Case Study →</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-thumb">UI/UX</div>
+                <div class="project-body">
+                    <span class="type">Wireframes</span>
+                    <h3>SaaS Dashboard</h3>
+                    <p>Redesigned analytics dashboard for a B2B SaaS product. Improved task completion by 40%.</p>
+                    <span class="link">View Case Study →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact-dark">
+        <span class="section-title">// lets_connect</span>
+        <h2>Let's build something<br />worth shipping.</h2>
+        <p>Open to product roles, collaborations, and interesting problems.</p>
+        <div class="hero-btns">
+            <a href="#" class="btn-glass primary">Get In Touch</a>
+            <a href="#" class="btn-glass secondary">LinkedIn</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <span>© 2026 Swayambhoo Chauhan</span>
+        <span>Built with curiosity</span>
+    </footer>
+</body>
+
+</html>

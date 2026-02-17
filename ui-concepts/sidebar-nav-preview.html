@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Nav Preview</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #F5F1EB;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Fixed Sidebar ── */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 240px;
+            background: #1A1A2E;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 32px;
+            z-index: 50;
+        }
+
+        .sidebar-logo {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-role {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.4);
+            font-size: 13px;
+            margin-bottom: 48px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar nav a {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.45);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .sidebar nav a:hover {
+            color: #FAFAF8;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar nav a.active {
+            color: #FF6B35;
+            background: rgba(255, 107, 53, 0.08);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-footer .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar-footer a {
+            font-family: 'DM Mono', monospace;
+            color: rgba(250, 250, 248, 0.3);
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: #FF6B35;
+        }
+
+        .admin-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(250, 250, 248, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .admin-btn:hover {
+            border-color: rgba(255, 107, 53, 0.3);
+            color: #FF6B35;
+        }
+
+        /* ── Main Content ── */
+        .main {
+            margin-left: 240px;
+            flex: 1;
+            padding: 24px 24px 24px 24px;
+        }
+
+        .space-y>*+* {
+            margin-top: 20px;
+        }
+
+        /* ── Hero Card ── */
+        .hero-card {
+            background: linear-gradient(135deg, #1A1A2E 0%, #2D2B55 60%, #1A1A2E 100%);
+            border-radius: 24px;
+            padding: 80px 64px;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .hero-card h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.05;
+        }
+
+        .hero-card h1 span {
+            color: #FF6B35;
+        }
+
+        .hero-card .tagline {
+            margin-top: 24px;
+            color: rgba(250, 250, 248, 0.55);
+            font-size: 16px;
+            max-width: 440px;
+            line-height: 1.6;
+        }
+
+        .badges {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: rgba(250, 250, 248, 0.6);
+            border: 1px solid rgba(250, 250, 248, 0.15);
+            padding: 6px 16px;
+            border-radius: 999px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 36px;
+        }
+
+        .btn-primary {
+            background: #FF6B35;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #e55a2b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #FAFAF8;
+            border: 2px solid rgba(250, 250, 248, 0.25);
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-outline:hover {
+            transform: translateY(-2px);
+            background: rgba(250, 250, 248, 0.08);
+        }
+
+        /* ── Bento Row ── */
+        .bento-row {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 20px;
+        }
+
+        .about-card {
+            background: #FFF;
+            border: 1px solid #E5E3DF;
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .about-card .label {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .about-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .about-card p {
+            color: #4A4A6A;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Stats */
+        .stats-grid {
+            background: #FFF;
+            border: 1px solid #E5E3DF;
+            border-radius: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+        }
+
+        .stat:nth-child(1) {
+            border-right: 1px solid #E5E3DF;
+            border-bottom: 1px solid #E5E3DF;
+        }
+
+        .stat:nth-child(2) {
+            border-bottom: 1px solid #E5E3DF;
+        }
+
+        .stat:nth-child(3) {
+            border-right: 1px solid #E5E3DF;
+        }
+
+        .stat .value {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FF6B35;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat .stat-label {
+            color: #4A4A6A;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* ── Flow nodes (right side of hero) ── */
+        .flow-container {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .flow-node {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flow-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FF6B35;
+            box-shadow: 0 0 12px rgba(255, 107, 53, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .flow-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .flow-label {
+            font-family: 'DM Mono', monospace;
+            color: rgba(250, 250, 248, 0.3);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .flow-line {
+            width: 1px;
+            height: 20px;
+            background: rgba(255, 107, 53, 0.15);
+            margin-left: 4.5px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.4);
+                opacity: 1;
+            }
+        }
+
+        /* Orbit ring */
+        .orbit {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            height: 280px;
+            border: 1px solid rgba(255, 107, 53, 0.06);
+            border-radius: 50%;
+            animation: spin 30s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* ── Scroll indicator ── */
+        .scroll-hint {
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+
+        .scroll-hint span {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* ── Placeholder sections ── */
+        .placeholder-section {
+            border-radius: 24px;
+            padding: 80px 64px;
+            text-align: center;
+        }
+
+        .placeholder-section.light {
+            background: #FFF;
+            border: 1px solid #E5E3DF;
+        }
+
+        .placeholder-section.dark {
+            background: #1A1A2E;
+        }
+
+        .placeholder-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .placeholder-section.light h2 {
+            color: #1A1A2E;
+        }
+
+        .placeholder-section.dark h2 {
+            color: #FAFAF8;
+        }
+
+        .placeholder-section p {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .placeholder-section.light p {
+            color: #4A4A6A;
+        }
+
+        .placeholder-section.dark p {
+            color: rgba(250, 250, 248, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── Fixed Side Navbar ── -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">SC</div>
+        <div class="sidebar-role">Product Manager</div>
+
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#">About</a>
+            <a href="#">Work</a>
+            <a href="#">Skills</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="divider"></div>
+            <div style="display:flex; gap:16px; align-items:center;">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <button class="admin-btn" title="Admin">🔒</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── Main Content ── -->
+    <main class="main">
+        <div class="space-y">
+
+            <!-- Hero Card -->
+            <div class="hero-card">
+                <div class="orbit"></div>
+
+                <div class="flow-container">
+                    <div class="flow-node">
+                        <div class="flow-dot"></div><span class="flow-label">Discover</span>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node">
+                        <div class="flow-dot" style="animation-delay:0.4s"></div><span
+                            class="flow-label">Research</span>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node">
+                        <div class="flow-dot" style="animation-delay:0.8s"></div><span class="flow-label">Define</span>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node">
+                        <div class="flow-dot" style="animation-delay:1.2s"></div><span class="flow-label">Build</span>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node">
+                        <div class="flow-dot" style="animation-delay:1.6s"></div><span class="flow-label">Ship ✨</span>
+                    </div>
+                </div>
+
+                <h1>I build products<br>that <span>matter.</span></h1>
+                <p class="tagline">Swayambhoo Chauhan — Product Manager driven by V² thinking: Value for users,
+                    Viability for business.</p>
+                <div class="badges">
+                    <span class="badge">Product Strategy</span>
+                    <span class="badge">User Research</span>
+                    <span class="badge">Data-Driven</span>
+                    <span class="badge">Cross-Functional</span>
+                </div>
+                <div class="cta-row">
+                    <a href="#" class="btn-primary">View My Work</a>
+                    <button class="btn-outline">Download Resume</button>
+                </div>
+            </div>
+
+            <!-- Bento Row -->
+            <div class="bento-row">
+                <div class="about-card">
+                    <div class="label">About</div>
+                    <h2>From vision to shipped features</h2>
+                    <p>I thrive at the intersection of user needs and business outcomes. Every product decision I make
+                        is filtered through V² thinking — does it deliver real Value to the customer while ensuring
+                        Viability for the business?</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat"><span class="value">12+</span><span class="stat-label">Products Shipped</span>
+                    </div>
+                    <div class="stat"><span class="value">3x</span><span class="stat-label">Avg. Impact</span></div>
+                    <div class="stat"><span class="value">50K</span><span class="stat-label">Users Impacted</span></div>
+                    <div class="stat"><span class="value">4</span><span class="stat-label">Industries</span></div>
+                </div>
+            </div>
+
+            <div class="scroll-hint"><span>↓ scroll ↓</span></div>
+
+            <!-- Placeholder sections -->
+            <div class="placeholder-section light">
+                <h2>About Me</h2>
+                <p>[ About section content renders here ]</p>
+            </div>
+
+            <div class="placeholder-section light">
+                <h2>Selected Work</h2>
+                <p>[ Projects section renders here ]</p>
+            </div>
+
+            <div class="placeholder-section dark">
+                <h2 style="color:#FAFAF8">Capabilities</h2>
+                <p>[ 🎯 📊 🧠 ⚡ ✏️ 🤝 emoji grid renders here ]</p>
+            </div>
+
+            <div
+                style="background:linear-gradient(135deg,#FF6B35,#FF8F5E,#FF6B35); border-radius:24px; padding:80px 64px; text-align:center;">
+                <h2 style="font-family:'Space Grotesk',sans-serif; color:#FFF; font-size:2.5rem; font-weight:700;">Let's
+                    Build Something Together</h2>
+                <p style="color:rgba(255,255,255,0.85); margin-top:12px;">Open to product roles, collaborations, and
+                    interesting problems.</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
