@@ -128,8 +128,8 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                         <Page
                                             pageNumber={pageNumber}
                                             width={Math.min(window.innerWidth - 80, 750)}
-                                            renderTextLayer={true}
-                                            renderAnnotationLayer={true}
+                                            renderTextLayer={false}
+                                            renderAnnotationLayer={false}
                                         />
                                     </Document>
 
