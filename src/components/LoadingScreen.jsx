@@ -8,18 +8,9 @@ const LoadingScreen = ({ onComplete }) => {
         const timer = setTimeout(() => {
             setIsVisible(false)
             setTimeout(() => onComplete?.(), 600)
-        }, 2000)
+        }, 2400)
         return () => clearTimeout(timer)
     }, [onComplete])
-
-    const pathVariants = {
-        hidden: { pathLength: 0, opacity: 0 },
-        visible: {
-            pathLength: 1,
-            opacity: 1,
-            transition: { duration: 1.5, ease: 'easeInOut' }
-        }
-    }
 
     return (
         <AnimatePresence>
@@ -31,54 +22,75 @@ const LoadingScreen = ({ onComplete }) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex flex-col items-center gap-4"
-                    >
-                        <svg width="120" height="80" viewBox="0 0 120 80">
-                            <motion.text
-                                x="50%"
-                                y="50%"
-                                dominantBaseline="central"
-                                textAnchor="middle"
-                                fill="none"
-                                stroke="#FF6B35"
-                                strokeWidth="1.5"
-                                fontSize="48"
-                                fontFamily="'Space Grotesk', sans-serif"
-                                fontWeight="700"
-                                variants={pathVariants}
-                                initial="hidden"
-                                animate="visible"
+                    <div className="flex flex-col items-center">
+                        {/* Main monogram */}
+                        <div className="relative flex items-baseline gap-0.5">
+                            {/* S */}
+                            <motion.span
+                                className="text-6xl tracking-tight"
+                                style={{
+                                    fontFamily: "'Playfair Display', Georgia, serif",
+                                    fontStyle: 'italic',
+                                    fontWeight: 300,
+                                    color: '#FF6B35',
+                                }}
+                                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                SC
-                            </motion.text>
-                            <motion.text
-                                x="50%"
-                                y="50%"
-                                dominantBaseline="central"
-                                textAnchor="middle"
-                                fill="#FF6B35"
-                                fontSize="48"
-                                fontFamily="'Space Grotesk', sans-serif"
-                                fontWeight="700"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 1, duration: 0.8 }}
+                                S
+                            </motion.span>
+
+                            {/* Decorative dot */}
+                            <motion.span
+                                className="inline-block w-1.5 h-1.5 rounded-full mb-1"
+                                style={{ backgroundColor: '#FF6B35' }}
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 0.6 }}
+                                transition={{ delay: 0.5, duration: 0.4, ease: 'easeOut' }}
+                            />
+
+                            {/* C */}
+                            <motion.span
+                                className="text-6xl tracking-tight"
+                                style={{
+                                    fontFamily: "'Playfair Display', Georgia, serif",
+                                    fontStyle: 'italic',
+                                    fontWeight: 300,
+                                    color: '#FF6B35',
+                                }}
+                                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                SC
-                            </motion.text>
-                        </svg>
+                                C
+                            </motion.span>
+                        </div>
+
+                        {/* Elegant underline sweep */}
                         <motion.div
-                            className="w-16 h-0.5 rounded-full"
-                            style={{ backgroundColor: '#FF6B35' }}
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ delay: 0.5, duration: 1, ease: 'easeInOut' }}
+                            className="h-px rounded-full mt-3"
+                            style={{ backgroundColor: 'rgba(255, 107, 53, 0.4)' }}
+                            initial={{ width: 0 }}
+                            animate={{ width: 72 }}
+                            transition={{ delay: 0.6, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         />
-                    </motion.div>
+
+                        {/* Subtle tagline */}
+                        <motion.p
+                            className="text-xs tracking-[0.3em] uppercase mt-4"
+                            style={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 300,
+                                color: 'rgba(250, 250, 248, 0.25)',
+                            }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.0, duration: 0.8 }}
+                        >
+                            Product Manager
+                        </motion.p>
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>

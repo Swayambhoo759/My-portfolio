@@ -45,10 +45,10 @@ const Navbar = ({ onAdminClick }) => {
                     className="block mb-1"
                 >
                     <span
-                        className="text-2xl font-semibold"
-                        style={{ fontFamily: "'DM Mono', monospace", color: '#FF6B35' }}
+                        className="text-2xl italic"
+                        style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 300, color: '#FF6B35', letterSpacing: '-0.02em' }}
                     >
-                        SC
+                        S<span style={{ fontSize: '0.6em', verticalAlign: 'middle', opacity: 0.5 }}>·</span>C
                     </span>
                 </a>
                 <p
@@ -143,10 +143,10 @@ const Navbar = ({ onAdminClick }) => {
                     onClick={(e) => handleNavClick(e, '#top')}
                 >
                     <span
-                        className="text-xl font-semibold"
-                        style={{ fontFamily: "'DM Mono', monospace", color: '#FF6B35' }}
+                        className="text-xl italic"
+                        style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 300, color: '#FF6B35', letterSpacing: '-0.02em' }}
                     >
-                        SC
+                        S<span style={{ fontSize: '0.6em', verticalAlign: 'middle', opacity: 0.5 }}>·</span>C
                     </span>
                 </a>
                 <button

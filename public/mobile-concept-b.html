@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Concept B — Immersive Hero + Floating FAB Nav</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F5F1EB;
+            max-width: 390px;
+            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── Concept label ── */
+        .concept-label {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #2D6A4F;
+            color: #fff;
+            text-align: center;
+            padding: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+        }
+
+        body {
+            padding-top: 28px;
+        }
+
+        /* ── Immersive Hero (full-bleed, no top bar initially) ── */
+        .hero-immersive {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(165deg, #1A1A2E 0%, #2D2B55 45%, #1A1A2E 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 24px 40px;
+        }
+
+        .hero-immersive .orb1 {
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FF6B35 0%, transparent 70%);
+            opacity: 0.12;
+            filter: blur(50px);
+            top: 5%;
+            right: -20%;
+        }
+
+        .hero-immersive .orb2 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #2D6A4F 0%, transparent 70%);
+            opacity: 0.08;
+            filter: blur(50px);
+            bottom: 20%;
+            left: -10%;
+        }
+
+        /* Floating SC badge in hero */
+        .sc-badge {
+            position: absolute;
+            top: 44px;
+            left: 24px;
+            z-index: 5;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .sc-badge .logo {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .sc-badge .role {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.3);
+            font-size: 11px;
+        }
+
+        /* Background star — large, subtle, behind text */
+        .bg-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            width: 280px;
+            height: 280px;
+            opacity: 0.5;
+        }
+
+        .bg-star svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Star label floating tags */
+        .float-tags {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            width: 320px;
+            height: 320px;
+        }
+
+        .float-tag {
+            position: absolute;
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 107, 53, 0.45);
+            white-space: nowrap;
+            padding: 3px 8px;
+            border: 1px solid rgba(255, 107, 53, 0.12);
+            border-radius: 20px;
+            background: rgba(255, 107, 53, 0.04);
+        }
+
+        .ft-1 {
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ft-2 {
+            top: 25%;
+            right: 0;
+        }
+
+        .ft-3 {
+            bottom: 10%;
+            right: 8%;
+        }
+
+        .ft-4 {
+            bottom: 10%;
+            left: 8%;
+        }
+
+        .ft-5 {
+            top: 25%;
+            left: 0;
+        }
+
+        .ft-6 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.25);
+            color: rgba(255, 107, 53, 0.7);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 14px;
+        }
+
+        .hero-content h1 span {
+            color: #FF6B35;
+        }
+
+        .hero-content .subtitle {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.55);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Inline stats row inside hero */
+        .hero-stats {
+            display: flex;
+            gap: 0;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .hero-stat {
+            flex: 1;
+            text-align: center;
+            padding: 14px 8px;
+        }
+
+        .hero-stat+.hero-stat {
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .hero-stat .v {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FF6B35;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .hero-stat .l {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.35);
+            font-size: 8px;
+            letter-spacing: 0.03em;
+            margin-top: 2px;
+        }
+
+        /* CTA */
+        .hero-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            background: #FF6B35;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 14px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            background: transparent;
+            color: #FAFAF8;
+            border: 2px solid rgba(250, 250, 248, 0.25);
+            cursor: pointer;
+        }
+
+        /* Scroll hint at hero bottom */
+        .hero-scroll {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            opacity: 0.4;
+        }
+
+        .hero-scroll span {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            color: #FAFAF8;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll .chev {
+            color: #FF6B35;
+            font-size: 14px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* ── Below Hero Sections ── */
+        .section {
+            padding: 48px 20px;
+        }
+
+        .section-num {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 3px;
+            background: #FF6B35;
+            border-radius: 2px;
+        }
+
+        /* About card improved */
+        .about-card-b {
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 20px;
+            padding: 24px 20px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .about-card-b .accent {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: #FF6B35;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .about-card-b p {
+            font-family: 'Syne', sans-serif;
+            color: #4A4A6A;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 14px;
+            font-weight: 500;
+            padding-left: 14px;
+        }
+
+        .about-card-b p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* V² highlight */
+        .v2-highlight {
+            margin-top: 16px;
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1A1A2E, #2D2B55);
+            border: 1px solid rgba(255, 107, 53, 0.15);
+        }
+
+        .v2-highlight .v2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF6B35;
+            margin-bottom: 6px;
+        }
+
+        .v2-highlight p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.5);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Projects — card with top gradient accent */
+        .project-card {
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            transition: transform 0.2s;
+        }
+
+        .project-card:active {
+            transform: scale(0.98);
+        }
+
+        .project-accent {
+            width: 4px;
+            align-self: stretch;
+            flex-shrink: 0;
+        }
+
+        .project-body {
+            padding: 18px 18px 18px 14px;
+            flex: 1;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-family: 'DM Mono', monospace;
+            margin-bottom: 8px;
+        }
+
+        .project-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .project-body p {
+            font-family: 'Inter', sans-serif;
+            color: #4A4A6A;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .project-arrow {
+            padding: 0 16px;
+            color: #FF6B35;
+            font-size: 16px;
+            opacity: 0.4;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-family: 'DM Mono', monospace;
+            border: 1px solid #E5E3DF;
+            background: #fff;
+            color: #1A1A2E;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #FF6B35;
+            color: #fff;
+            border-color: #FF6B35;
+        }
+
+        /* Skills — horizontal scroll cards */
+        .skills-dark {
+            border-radius: 24px;
+            padding: 36px 20px;
+            background: #1A1A2E;
+            margin: 0 12px;
+        }
+
+        .skills-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .skills-scroll::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        .skills-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .skills-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+        }
+
+        .skill-slide {
+            flex: 0 0 200px;
+            scroll-snap-align: start;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px 18px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .skill-slide .emoji {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .skill-slide h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .skill-slide p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.45);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        .scroll-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .scroll-dot.active {
+            background: #FF6B35;
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        /* Contact */
+        .contact-card {
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            margin: 0 12px;
+            background: linear-gradient(135deg, #FF6B35, #FF8F5E);
+        }
+
+        .contact-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .contact-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-white {
+            padding: 14px;
+            border-radius: 50px;
+            background: #fff;
+            color: #FF6B35;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-outline-w {
+            padding: 14px;
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px 0 24px;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: rgba(74, 74, 106, 0.5);
+        }
+
+        /* ── Floating Action Button Nav (CONCEPT B FEATURE) ── */
+        .fab-nav {
+            position: fixed;
+            bottom: 24px;
+            right: 16px;
+            z-index: 60;
+        }
+
+        .fab-trigger {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #FF6B35;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .fab-trigger:active {
+            transform: scale(0.9);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 64px;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px;
+            min-width: 150px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fab-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            color: rgba(250, 250, 248, 0.6);
+            text-decoration: none;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .fab-menu a:hover,
+        .fab-menu a.active {
+            color: #FF6B35;
+            background: rgba(255, 107, 53, 0.08);
+        }
+
+        .fab-menu a svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* Stacked badge row */
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-family: 'DM Mono', monospace;
+            border: 1px solid rgba(250, 250, 248, 0.15);
+            color: rgba(250, 250, 248, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="concept-label">CONCEPT B — Immersive Full-Bleed Hero + FAB Nav + Swipe Skills</div>
+
+    <!-- Immersive Hero (full viewport height, no top bar) -->
+    <div class="hero-immersive">
+        <div class="orb1"></div>
+        <div class="orb2"></div>
+
+        <!-- SC badge floats in corner -->
+        <div class="sc-badge">
+            <span class="logo">SC</span>
+            <span class="role">Product Manager</span>
+        </div>
+
+        <!-- Background star — large, subtle, atmospheric -->
+        <div class="bg-star">
+            <svg viewBox="0 0 100 100" fill="none">
+                <polygon points="50,12 73,80 14,33.5 86,33.5 27,80" stroke="rgba(255,107,53,0.12)" stroke-width="0.6"
+                    stroke-dasharray="3,3" fill="none" />
+                <line x1="50" y1="50" x2="50" y2="12" stroke="rgba(255,107,53,0.05)" stroke-width="0.3" />
+                <line x1="50" y1="50" x2="86" y2="33.5" stroke="rgba(255,107,53,0.05)" stroke-width="0.3" />
+                <line x1="50" y1="50" x2="73" y2="80" stroke="rgba(255,107,53,0.05)" stroke-width="0.3" />
+                <line x1="50" y1="50" x2="27" y2="80" stroke="rgba(255,107,53,0.05)" stroke-width="0.3" />
+                <line x1="50" y1="50" x2="14" y2="33.5" stroke="rgba(255,107,53,0.05)" stroke-width="0.3" />
+                <circle cx="50" cy="50" r="20" stroke="rgba(255,107,53,0.04)" stroke-width="0.4" fill="none" />
+                <circle cx="50" cy="50" r="32" stroke="rgba(255,255,255,0.02)" stroke-width="0.3" fill="none" />
+            </svg>
+        </div>
+
+        <!-- Floating process tags around star -->
+        <div class="float-tags">
+            <span class="float-tag ft-1">Discover</span>
+            <span class="float-tag ft-2">Vision</span>
+            <span class="float-tag ft-3">Build</span>
+            <span class="float-tag ft-4">Prioritize</span>
+            <span class="float-tag ft-5">Ship</span>
+            <span class="float-tag ft-6">Iterate</span>
+        </div>
+
+        <!-- Hero Content (pushed to bottom) -->
+        <div class="hero-content">
+            <div class="badge-row">
+                <span class="badge">Product Strategy</span>
+                <span class="badge">User Research</span>
+                <span class="badge">Data-Driven</span>
+                <span class="badge">Cross-Functional</span>
+            </div>
+
+            <h1>I build products<br>that <span>matter.</span></h1>
+            <p class="subtitle">Product Manager driven by V² thinking: Value for users, Viability for business.</p>
+
+            <!-- Stats inline in hero -->
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="v">12+</div>
+                    <div class="l">Products</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="v">3x</div>
+                    <div class="l">Avg. Impact</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="v">50K</div>
+                    <div class="l">Users</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="v">4</div>
+                    <div class="l">Industries</div>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <button class="btn-primary">View My Work</button>
+                <button class="btn-secondary">Resume</button>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <span>scroll</span>
+            <div class="chev">⌄</div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="section">
+        <div class="section-num">01 / About</div>
+        <h2>About Me</h2>
+        <div class="about-card-b">
+            <div class="accent"></div>
+            <p>I'm a Product Manager based in Gurugram, sitting at the intersection of user empathy and business
+                strategy. I believe every great product starts with a single question: what does this person actually
+                need?</p>
+            <p>My approach is rooted in V² thinking — delivering genuine Value to users while ensuring Viability for the
+                business.</p>
+            <p>Currently at TST Group, I lead cross-functional teams bridging product, engineering, and business.</p>
+        </div>
+
+        <!-- V² highlight card -->
+        <div class="v2-highlight">
+            <div class="v2">V²</div>
+            <p><strong style="color:rgba(250,250,248,0.7);">Value</strong> for users · <strong
+                    style="color:rgba(250,250,248,0.7);">Viability</strong> for business — the lens for every decision.
+            </p>
+        </div>
+    </div>
+
+    <!-- Work Section -->
+    <div class="section" style="background:#F2F1EE; padding-top:48px; padding-bottom:48px;">
+        <div class="section-num">02 / Work</div>
+        <h2>My Work</h2>
+        <p style="font-family:'Inter',sans-serif; color:#4A4A6A; font-size:13px; margin-bottom:20px;">A collection of
+            product thinking in action</p>
+
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">PRD</button>
+            <button class="filter-btn">MVP PRD</button>
+            <button class="filter-btn">Teardown</button>
+        </div>
+
+        <div class="project-card">
+            <div class="project-accent" style="background:#1D4ED8;"></div>
+            <div class="project-body">
+                <span class="type-badge" style="background:#DBEAFE;color:#1D4ED8;">PRD</span>
+                <h3>AppleConnect MVP PRD</h3>
+                <p>Direct-to-Consumer Apple Sales marketplace.</p>
+            </div>
+            <span class="project-arrow">→</span>
+        </div>
+        <div class="project-card">
+            <div class="project-accent" style="background:#7C3AED;"></div>
+            <div class="project-body">
+                <span class="type-badge" style="background:#F3E8FF;color:#7C3AED;">MVP PRD</span>
+                <h3>SkillBridge Platform</h3>
+                <p>Peer-to-peer skill sharing for students.</p>
+            </div>
+            <span class="project-arrow">→</span>
+        </div>
+        <div class="project-card">
+            <div class="project-accent" style="background:#DC2626;"></div>
+            <div class="project-body">
+                <span class="type-badge" style="background:#FEE2E2;color:#DC2626;">Teardown</span>
+                <h3>Spotify Discover Weekly</h3>
+                <p>Analysis of recommendation engine patterns.</p>
+            </div>
+            <span class="project-arrow">→</span>
+        </div>
+    </div>
+
+    <!-- Skills Section — Horizontal scroll -->
+    <div class="section" style="padding: 24px 0 48px;">
+        <div class="skills-dark">
+            <div class="section-num">03 / Capabilities</div>
+            <h2
+                style="font-family:'Space Grotesk',sans-serif; color:#FAFAF8; font-size:26px; font-weight:700; margin-bottom:20px;">
+                What I Bring</h2>
+            <div class="skills-scroll">
+                <div class="skill-slide">
+                    <div class="emoji">🎯</div>
+                    <h3>Product Strategy</h3>
+                    <p>Roadmapping, vision setting, and ruthless prioritization to ship what matters most.</p>
+                </div>
+                <div class="skill-slide">
+                    <div class="emoji">📊</div>
+                    <h3>Data & Analytics</h3>
+                    <p>SQL, A/B testing, cohort analysis — turning numbers into insights.</p>
+                </div>
+                <div class="skill-slide">
+                    <div class="emoji">🧠</div>
+                    <h3>User Empathy</h3>
+                    <p>Deep user research, persona building, and journey mapping.</p>
+                </div>
+                <div class="skill-slide">
+                    <div class="emoji">⚡</div>
+                    <h3>Technical Fluency</h3>
+                    <p>API design, system architecture, and engineering partnership.</p>
+                </div>
+                <div class="skill-slide">
+                    <div class="emoji">✏️</div>
+                    <h3>Design Thinking</h3>
+                    <p>Wireframing, rapid prototyping, and iterative UX.</p>
+                </div>
+                <div class="skill-slide">
+                    <div class="emoji">🤝</div>
+                    <h3>Stakeholder Craft</h3>
+                    <p>Cross-functional alignment and leadership buy-in.</p>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-dot active"></div>
+                <div class="scroll-dot"></div>
+                <div class="scroll-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section" style="padding: 12px 0 24px;">
+        <div class="contact-card">
+            <h2>Let's Build Something Together</h2>
+            <p>Open to product roles, collaborations, and interesting problems.</p>
+            <div class="contact-btns">
+                <button class="btn-white">✉ Get In Touch</button>
+                <button class="btn-outline-w">in Connect on LinkedIn</button>
+            </div>
+        </div>
+        <div class="footer">© 2026 Swayambhoo Chauhan · Built with curiosity</div>
+    </div>
+
+    <!-- FAB Navigation -->
+    <div class="fab-nav">
+        <div class="fab-menu">
+            <a href="#" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                </svg>
+                Home
+            </a>
+            <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 16v-4M12 8h.01" />
+                </svg>
+                About
+            </a>
+            <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <path d="M8 21h8M12 17v4" />
+                </svg>
+                Work
+            </a>
+            <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" />
+                </svg>
+                Skills
+            </a>
+            <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Contact
+            </a>
+        </div>
+        <button class="fab-trigger">☰</button>
+    </div>
+
+</body>
+
+</html>

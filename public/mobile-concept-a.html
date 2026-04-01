@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Concept A — Mini Star + Bottom Nav</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F5F1EB;
+            max-width: 390px;
+            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── Top Nav Bar ── */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            background: #1A1A2E;
+        }
+
+        .top-bar .logo {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .top-bar .role {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.35);
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        .top-bar .hamburger {
+            color: #FAFAF8;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* ── Hero Card ── */
+        .hero-card {
+            margin: 12px 12px 0;
+            border-radius: 24px;
+            padding: 32px 24px 28px;
+            background: linear-gradient(135deg, #1A1A2E 0%, #2D2B55 60%, #1A1A2E 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card .orb {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #FF6B35 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(40px);
+            top: -20px;
+            right: -30px;
+        }
+
+        /* ── Mini Star Graphic (mobile-only addition) ── */
+        .mini-star-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .mini-star-wrapper {
+            width: 160px;
+            height: 160px;
+            position: relative;
+        }
+
+        .mini-star-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .star-label {
+            position: absolute;
+            font-family: 'DM Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(250, 250, 248, 0.35);
+            white-space: nowrap;
+        }
+
+        .star-dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #FF6B35;
+            box-shadow: 0 0 6px rgba(255, 107, 53, 0.4);
+            transform: translate(-50%, -50%);
+        }
+
+        /* Dot positions: Discover (top), Vision (upper-right), Build (lower-right), Prioritize (lower-left), Ship (upper-left), Iterate (center) */
+        .dot-0 {
+            top: 12%;
+            left: 50%;
+        }
+
+        .dot-1 {
+            top: 33%;
+            left: 86%;
+        }
+
+        .dot-2 {
+            top: 80%;
+            left: 73%;
+        }
+
+        .dot-3 {
+            top: 80%;
+            left: 27%;
+        }
+
+        .dot-4 {
+            top: 33%;
+            left: 14%;
+        }
+
+        .dot-5 {
+            top: 50%;
+            left: 50%;
+        }
+
+        .label-0 {
+            top: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .label-1 {
+            top: 30%;
+            left: 92%;
+        }
+
+        .label-2 {
+            top: 83%;
+            left: 72%;
+        }
+
+        .label-3 {
+            top: 83%;
+            left: 10%;
+        }
+
+        .label-4 {
+            top: 30%;
+            right: 92%;
+            text-align: right;
+        }
+
+        .label-5 {
+            top: 47%;
+            left: 57%;
+        }
+
+        .hero-card h1 {
+            position: relative;
+            z-index: 2;
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.05;
+        }
+
+        .hero-card h1 span {
+            color: #FF6B35;
+        }
+
+        .hero-card .subtitle {
+            position: relative;
+            z-index: 2;
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.6);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: 14px;
+        }
+
+        /* Badges */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-family: 'DM Mono', monospace;
+            border: 1px solid rgba(250, 250, 248, 0.2);
+            color: rgba(250, 250, 248, 0.65);
+        }
+
+        /* CTA */
+        .cta-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 22px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-primary {
+            padding: 14px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            background: #FF6B35;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            padding: 14px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            background: transparent;
+            color: #FAFAF8;
+            border: 2px solid rgba(250, 250, 248, 0.3);
+            cursor: pointer;
+        }
+
+        /* ── Bento Row ── */
+        .bento-row {
+            padding: 0 12px;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .about-card {
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 24px;
+            padding: 28px 24px;
+        }
+
+        .about-card .label {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+
+        .about-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .about-card p {
+            font-family: 'Inter', sans-serif;
+            color: #4A4A6A;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Stats — horizontal scroll row */
+        .stats-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .stats-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .stat-chip {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 20px;
+            padding: 18px 22px;
+            text-align: center;
+            min-width: 110px;
+        }
+
+        .stat-chip .val {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FF6B35;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .stat-chip .lbl {
+            font-family: 'Inter', sans-serif;
+            color: #4A4A6A;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        /* ── About Section ── */
+        .section {
+            padding: 48px 16px;
+        }
+
+        .section-num {
+            font-family: 'DM Mono', monospace;
+            color: #FF6B35;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+        }
+
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 3px;
+            background: #FF6B35;
+            border-radius: 2px;
+        }
+
+        .about-block {
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 24px;
+            padding: 28px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-block .accent {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: #FF6B35;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .about-block p {
+            font-family: 'Syne', sans-serif;
+            color: #4A4A6A;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-weight: 500;
+            padding-left: 12px;
+        }
+
+        .about-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ── Work Section ── */
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-family: 'DM Mono', monospace;
+            border: 1px solid #E5E3DF;
+            background: #fff;
+            color: #1A1A2E;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-btn.active {
+            background: #FF6B35;
+            color: #fff;
+            border-color: #FF6B35;
+        }
+
+        .project-card {
+            background: #fff;
+            border: 1px solid #E5E3DF;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B35, #FF8F5E);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .project-card:active::before {
+            opacity: 1;
+        }
+
+        .project-card .type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-family: 'DM Mono', monospace;
+            margin-bottom: 10px;
+        }
+
+        .project-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #1A1A2E;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .project-card p {
+            font-family: 'Inter', sans-serif;
+            color: #4A4A6A;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .project-card .arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF6B35;
+            font-size: 18px;
+            opacity: 0.5;
+        }
+
+        /* ── Skills Section ── */
+        .skills-block {
+            border-radius: 24px;
+            padding: 40px 20px;
+            background: #1A1A2E;
+            margin: 0 12px;
+        }
+
+        .skill-card {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            margin-bottom: 10px;
+        }
+
+        .skill-card .emoji-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255, 107, 53, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .skill-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #FAFAF8;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .skill-card p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(250, 250, 248, 0.5);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ── Contact ── */
+        .contact-card {
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-align: center;
+            margin: 0 12px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8F5E 50%, #FF6B35 100%);
+        }
+
+        .contact-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .contact-card .btn-white {
+            padding: 14px 28px;
+            border-radius: 50px;
+            background: #fff;
+            color: #FF6B35;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .contact-card .btn-outline {
+            padding: 14px 28px;
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* ── Bottom Tab Nav (CONCEPT A FEATURE) ── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 390px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            z-index: 60;
+        }
+
+        .bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            text-decoration: none;
+            color: rgba(250, 250, 248, 0.35);
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+
+        .bottom-nav a.active {
+            color: #FF6B35;
+        }
+
+        .bottom-nav a svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px 0 80px;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: rgba(74, 74, 106, 0.5);
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 0;
+            opacity: 0.5;
+        }
+
+        .scroll-hint span {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: #FF6B35;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .scroll-hint .chevron {
+            color: #FF6B35;
+            font-size: 16px;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(6px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.4);
+            }
+        }
+
+        .dot-pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        /* Label for this concept */
+        .concept-label {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #FF6B35;
+            color: #fff;
+            text-align: center;
+            padding: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+        }
+
+        body {
+            padding-top: 28px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="concept-label">CONCEPT A — Mini Star + Bottom Tab Nav + Stats Scroll</div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div style="display:flex;align-items:baseline;">
+            <span class="logo">SC</span>
+            <span class="role">Product Manager</span>
+        </div>
+        <button class="hamburger">☰</button>
+    </div>
+
+    <!-- Hero Card -->
+    <div class="hero-card">
+        <div class="orb"></div>
+
+        <!-- Mini Star (mobile-specific addition) -->
+        <div class="mini-star-container">
+            <div class="mini-star-wrapper">
+                <svg class="mini-star-svg" viewBox="0 0 100 100" fill="none">
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="0.8" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- Star outline -->
+                    <polygon points="50,12 73,80 14,33.5 86,33.5 27,80" stroke="rgba(255,107,53,0.2)" stroke-width="0.5"
+                        stroke-dasharray="3,3" fill="none" filter="url(#glow)" />
+                    <!-- Radial lines -->
+                    <line x1="50" y1="50" x2="50" y2="12" stroke="rgba(255,107,53,0.08)" stroke-width="0.3" />
+                    <line x1="50" y1="50" x2="86" y2="33.5" stroke="rgba(255,107,53,0.08)" stroke-width="0.3" />
+                    <line x1="50" y1="50" x2="73" y2="80" stroke="rgba(255,107,53,0.08)" stroke-width="0.3" />
+                    <line x1="50" y1="50" x2="27" y2="80" stroke="rgba(255,107,53,0.08)" stroke-width="0.3" />
+                    <line x1="50" y1="50" x2="14" y2="33.5" stroke="rgba(255,107,53,0.08)" stroke-width="0.3" />
+                    <!-- Orbit rings -->
+                    <circle cx="50" cy="50" r="18" stroke="rgba(255,107,53,0.04)" stroke-width="0.4" fill="none" />
+                    <circle cx="50" cy="50" r="28" stroke="rgba(255,255,255,0.025)" stroke-width="0.3" fill="none" />
+                </svg>
+                <!-- Dots -->
+                <div class="star-dot dot-0 dot-pulse"></div>
+                <div class="star-dot dot-1 dot-pulse" style="animation-delay:0.3s"></div>
+                <div class="star-dot dot-2 dot-pulse" style="animation-delay:0.6s"></div>
+                <div class="star-dot dot-3 dot-pulse" style="animation-delay:0.9s"></div>
+                <div class="star-dot dot-4 dot-pulse" style="animation-delay:1.2s"></div>
+                <div class="star-dot dot-5 dot-pulse" style="animation-delay:1.5s"></div>
+                <!-- Labels -->
+                <span class="star-label label-0">Discover</span>
+                <span class="star-label label-1">Vision</span>
+                <span class="star-label label-2">Build</span>
+                <span class="star-label label-3">Prioritize</span>
+                <span class="star-label label-4">Ship</span>
+                <span class="star-label label-5">Iterate</span>
+            </div>
+        </div>
+
+        <h1>I build products<br>that <span>matter.</span></h1>
+        <p class="subtitle">Swayambhoo Chauhan — Product Manager driven by V² thinking: Value for users, Viability for
+            business.</p>
+
+        <div class="badges">
+            <span class="badge">Product Strategy</span>
+            <span class="badge">User Research</span>
+            <span class="badge">Data-Driven</span>
+            <span class="badge">Cross-Functional</span>
+        </div>
+
+        <div class="cta-row">
+            <button class="btn-primary">View My Work</button>
+            <button class="btn-secondary">Download Resume</button>
+        </div>
+    </div>
+
+    <!-- Stats — horizontal scroll chips -->
+    <div class="bento-row">
+        <div class="stats-scroll">
+            <div class="stat-chip">
+                <div class="val">12+</div>
+                <div class="lbl">Products Shipped</div>
+            </div>
+            <div class="stat-chip">
+                <div class="val">3x</div>
+                <div class="lbl">Avg. Impact</div>
+            </div>
+            <div class="stat-chip">
+                <div class="val">50K</div>
+                <div class="lbl">Users Impacted</div>
+            </div>
+            <div class="stat-chip">
+                <div class="val">4</div>
+                <div class="lbl">Industries</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Snippet Card -->
+    <div class="bento-row" style="margin-bottom:0;">
+        <div class="about-card">
+            <div class="label">About</div>
+            <h2>From vision to shipped features</h2>
+            <p>I thrive at the intersection of user needs and business outcomes. Every product decision I make is
+                filtered through V² thinking — does it deliver real Value to the customer while ensuring Viability for
+                the business?</p>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-hint">
+        <span>scroll</span>
+        <div class="chevron">⌄</div>
+    </div>
+
+    <!-- About Section -->
+    <div class="section">
+        <div class="section-num">01 / About</div>
+        <h2>About Me</h2>
+        <div style="margin-top: 24px;">
+            <div class="about-block">
+                <div class="accent"></div>
+                <p>I'm a Product Manager based in Gurugram, sitting at the intersection of user empathy and business
+                    strategy. I believe every great product starts with a single question: what does this person
+                    actually need?</p>
+                <p>My approach is rooted in V² thinking — delivering genuine Value to users while ensuring Viability for
+                    the business. This isn't just a framework for me. It's a lens I apply to every decision, every
+                    feature, every trade-off.</p>
+                <p>Currently at TST Group, I lead cross-functional teams bridging product, engineering, and business.
+                    Before that, I spent time going deep on product craft — teardowns, research, prototypes, and more.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Section -->
+    <div class="section" style="background:#F2F1EE; padding-top:48px; padding-bottom:48px;">
+        <div class="section-num">02 / Work</div>
+        <h2>My Work</h2>
+        <p style="font-family:'Inter',sans-serif; color:#4A4A6A; font-size:14px; margin-bottom:20px;">A collection of
+            product thinking in action</p>
+
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">PRD</button>
+            <button class="filter-btn">MVP PRD</button>
+            <button class="filter-btn">Teardown</button>
+            <button class="filter-btn">Case Study</button>
+        </div>
+
+        <div class="project-card">
+            <span class="type-badge" style="background:#DBEAFE;color:#1D4ED8;">PRD</span>
+            <h3>AppleConnect MVP PRD</h3>
+            <p>Direct-to-Consumer Apple Sales marketplace connecting farmers directly to consumers.</p>
+            <span class="arrow">→</span>
+        </div>
+        <div class="project-card">
+            <span class="type-badge" style="background:#F3E8FF;color:#7C3AED;">MVP PRD</span>
+            <h3>SkillBridge Platform</h3>
+            <p>A peer-to-peer skill sharing platform for college students.</p>
+            <span class="arrow">→</span>
+        </div>
+        <div class="project-card">
+            <span class="type-badge" style="background:#FEE2E2;color:#DC2626;">Teardown</span>
+            <h3>Spotify Discover Weekly</h3>
+            <p>Deep analysis of Spotify's recommendation engine and user engagement patterns.</p>
+            <span class="arrow">→</span>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="section" style="padding:24px 0 48px;">
+        <div class="skills-block">
+            <div class="section-num" style="padding:0 4px;">03 / Capabilities</div>
+            <h2 style="color:#FAFAF8; padding:0 4px; margin-bottom:20px;">What I Bring</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="emoji-badge">🎯</div>
+                    <h3>Product Strategy</h3>
+                    <p>Roadmapping, vision setting, and ruthless prioritization.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="emoji-badge">📊</div>
+                    <h3>Data & Analytics</h3>
+                    <p>SQL, A/B testing, and cohort analysis.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="emoji-badge">🧠</div>
+                    <h3>User Empathy</h3>
+                    <p>Deep research, persona building, journey mapping.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="emoji-badge">⚡</div>
+                    <h3>Technical Fluency</h3>
+                    <p>API design & engineering partnership.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="emoji-badge">✏️</div>
+                    <h3>Design Thinking</h3>
+                    <p>Wireframing, rapid prototyping, iterative UX.</p>
+                </div>
+                <div class="skill-card">
+                    <div class="emoji-badge">🤝</div>
+                    <h3>Stakeholder Craft</h3>
+                    <p>Cross-functional alignment and buy-in.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section" style="padding:12px 0 24px;">
+        <div class="contact-card">
+            <h2>Let's Build Something Together</h2>
+            <p>Open to product roles, collaborations, and interesting problems.</p>
+            <button class="btn-white">✉ Get In Touch</button>
+            <button class="btn-outline">in Connect on LinkedIn</button>
+        </div>
+        <div class="footer">© 2026 Swayambhoo Chauhan · Built with curiosity</div>
+    </div>
+
+    <!-- Bottom Tab Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            </svg>
+            Home
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" />
+            </svg>
+            About
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+            </svg>
+            Work
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" />
+            </svg>
+            Skills
+        </a>
+        <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+            </svg>
+            Contact
+        </a>
+    </nav>
+
+</body>
+
+</html>
